@@ -23,7 +23,8 @@
 ## Config
 
 Do you can add characters in the checkOnline.js on const CHARACTERS_TO_CHECK
-Example : CHARACTERS_TO_CHECK = ['Char One', 'Char Two', 'Char Three'];
+CONST SITE_WHO_IS_ONLINE_URL = "Add your actually server website page where show characters online"
+CONST CHARACTERS_TO_CHECK = ['Char One', 'Char Two', 'Char Three'];
 Change the SECONDS_TO_CHECK as per your need
 
 ## Licença

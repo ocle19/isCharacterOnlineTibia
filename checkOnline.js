@@ -1,11 +1,12 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
-const url = "https://mudabraglobal.com/?subtopic=whoisonline#S";
+const SITE_WHO_IS_ONLINE_URL =
+    "https://mudabraglobal.com/?subtopic=whoisonline#S";
 var beep = require("beepbeep");
 const SECONDS_TO_CHECK = 10;
 const CHARACTERS_TO_CHECK = ["Session Destroy"];
 setInterval(() => {
-    axios(url)
+    axios(SITE_WHO_IS_ONLINE_URL)
         .then((response) => {
             const html = response.data;
             const $ = cheerio.load(html);
