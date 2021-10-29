@@ -3,27 +3,30 @@ const cheerio = require("cheerio");
 const SITE_WHO_IS_ONLINE_URL =
     "https://mudabraglobal.com/?subtopic=whoisonline#S";
 var beep = require("beepbeep");
-const SECONDS_TO_CHECK = 10;
-const CHARACTERS_TO_CHECK = ["Session Destroy"];
+const SECONDS_TO_CHECK = 2;
+const fs = require("fs");
+
 setInterval(() => {
     axios(SITE_WHO_IS_ONLINE_URL)
         .then((response) => {
+            CHARACTERS_TO_CHECK = fs
+                .readFileSync("./charactersList.txt", "utf8")
+                .split("\n")
+                .map((x) => x.trim());
             const html = response.data;
             const $ = cheerio.load(html);
-            const tableClassItems = $(".InnerTableContainer");
-            const tableCharactersOnline = [];
+            const tableCharactersName = $(
+                ".InnerTableContainer > table > tbody > tr > td > a"
+            ).text();
+            var tableCharactersOnline = [];
+            var tableCharactersOffline = [];
 
-            tableClassItems.each(function () {
-                const tableCharactersName = $(this)
-                    .find("table > tbody > tr > td > a")
-                    .text();
-                CHARACTERS_TO_CHECK.forEach((character) => {
-                    if (tableCharactersName.includes(character)) {
-                        tableCharactersOnline.push({
-                            tableCharactersName,
-                        });
-                    }
-                });
+            CHARACTERS_TO_CHECK.forEach((character) => {
+                if (tableCharactersName.includes(character)) {
+                    tableCharactersOnline.push(character.trim());
+                } else {
+                    tableCharactersOffline.push(character.trim());
+                }
             });
             if (tableCharactersOnline.length == CHARACTERS_TO_CHECK.length) {
                 console.log(
@@ -32,7 +35,7 @@ setInterval(() => {
                         : "All characters are ONLINE"
                 );
             } else {
-                beep(2, 200);
+                beep(1, 500); /// duração do beep, tempo em milisegundos
                 console.log(
                     CHARACTERS_TO_CHECK.length == 1
                         ? `Character is OFFLINE`
@@ -45,7 +48,7 @@ setInterval(() => {
                               1
                                   ? "is"
                                   : "are"
-                          } OFFLINE`
+                          } OFFLINE --> [ ${tableCharactersOffline} ]`
                 );
             }
         })

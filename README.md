@@ -23,7 +23,7 @@
 ## Config
 
 -   CONST SITE_WHO_IS_ONLINE_URL = "Add your actually server website page where show characters online"
--   CONST CHARACTERS_TO_CHECK = ['Char One', 'Char Two', 'Char Three'];
+-   Add one character name per line in archive characterList.txt
 -   Change the SECONDS_TO_CHECK as per your need
 
 ## Licença
